@@ -31,5 +31,5 @@ stories:
   steps:
   - or:
     - intent: founder
-    - intent: c_HOD_currentdept
+    - intent: c_hod_currentdept
   - action: action_quick_replies
