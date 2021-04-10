@@ -32,4 +32,15 @@ stories:
   - or:
     - intent: founder
     - intent: c_hod_currentdept
+    - intent: chairman
+    - intent: vice_chairman
+    - intent: principal
+    - intent: companies
+    - intent: timing
+    - intent: lib
+    - intent: address
+    - intent: mentor
+    - intent: fee
+    - intent: holidays
+    - intent: map
   - action: action_quick_replies

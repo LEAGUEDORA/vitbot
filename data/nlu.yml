@@ -304,3 +304,96 @@ nlu:
     - [EEE](currentdept) department Hod
     - HOD of [eee](currentdept) department
     - Hod list of [EEE](currentdept) department
+
+- intent: chairman
+  examples: |
+    - who  is the chairman
+    - chairman
+    - charman
+    - college chairman
+
+- intent: vice_chairman
+  examples: |
+    - who is the vice chairman
+    - vice_chairman
+    - vice_chairman
+    - college vice chairman 
+
+- intent: principal
+  examples: |
+    - who is the principal of clg
+    - college principal
+    - college prince
+    - our clg principal
+
+- intent: companies
+  examples: |
+    - placements companies
+    - clg visiting companies
+    - what companies will visit the college
+    - list of placement companies
+
+- intent: timing
+  examples: |
+    - what are timings of college
+    - timings of clg
+    - college timings of
+    - college time
+
+- intent: lib
+  examples: |
+    - what are library timings 
+    - timings of library
+    - lib time
+    - library timings
+    - library time
+
+- intent: address
+  examples: |
+    - address of college
+    - pin code of college
+    - area of college
+    - clg address
+    - arra of clg
+    - pin college
+    - pin clg
+  
+- intent: mentor
+  examples: |
+    - what is mentor duty 
+    - responsibility of mentor
+    - rules of mentor
+    - why is mentor 
+    - mentor purpose
+
+- intent: fee
+  examples: |
+    - clg fee
+    - what is college fee
+    - how much is clg fee
+    - total fee of clg 
+    - my clg fees
+    - tution fees of clg
+    - tution fee
+
+- intent: holidays
+  examples: |
+    - list of holidays
+    - how many holidays of this year
+    - holidays this year
+    - list of outing dates
+    - total holidays of year
+
+- intent: map
+  examples: |
+    - map of college
+    - college image
+    - clg map
+    - route of clg
+    - pic of college
+    - picture of College
+
+  
+
+
+
