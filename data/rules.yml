@@ -1,0 +1,19 @@
+version: "2.0"
+
+rules:
+
+
+- rule: Log in
+  steps:
+  - intent: greet
+  - action: greet
+  - active_loop: greet
+
+- rule: Submit form for Log in
+  condition:
+  - active_loop: greet
+  steps:
+  - action: greet
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null

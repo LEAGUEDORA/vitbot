@@ -1,0 +1,35 @@
+version: "2.0"
+
+stories:
+
+- story: bye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: change status
+  steps:
+  - intent: change_status
+  - action: action_change_status
+
+- story: current_status
+  steps: 
+  - intent: current_status
+  - action: utter_current_status
+
+- story: say bye
+  steps:
+  - intent: goodbye
+  - action: action_goodbye
+
+- story: events 
+  steps:
+  - intent: latest_events
+  - action: action_latest_events
+
+- story: Quick Replies
+  steps:
+  - or:
+    - intent: founder
+    - intent: c_HOD_currentdept
+  - action: action_quick_replies

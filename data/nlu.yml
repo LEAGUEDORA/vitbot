@@ -1,1 +1,306 @@
+version: "2.0"
 
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hiii
+    - hii
+    - Hi
+    - Hellow
+    - Hey
+    - Hi bot
+    - Hey bot
+    - Hello
+    - Good morning
+    - hi again
+    - hi folks
+    - hi Mister
+    - hi pal!
+    - hi there
+    - greetings
+    - hello everybody
+    - hello is anybody there
+    - hello robot
+    - hallo
+    - heeey
+    - hi hi
+    - hey
+    - hey hey
+    - hello there
+    - hi
+    - hello
+    - yo
+    - hola
+    - hi?
+    - hey bot!
+    - hello friend
+    - good morning
+    - hii
+    - hello sweet boy
+    - yoo
+    - hey there
+    - hiihihi
+    - hello sweatheart
+    - hellooo
+    - helloooo
+    - heyo
+    - ayyyy whaddup
+    - hello?
+    - Hallo
+    - heya
+    - hey bot
+    - howdy
+    - Hellllooooooo
+    - whats up
+    - Hei
+    - Well hello there ;)
+    - I said, helllllloooooO!!!!
+    - Heya
+    - Whats up my bot
+    - hiii
+    - heyho
+    - hey, let's talk
+    - hey let's talk
+    - jojojo
+    - hey dude
+    - hello it is me again
+    - what up
+    - jop
+    - hi friend
+    - hi there it's me
+    - good evening
+    - good afternoon
+    - /start
+    - My name is Balakrishnan Rammurthy.
+    - Hey, im Gaurav Roy.
+    - Hi there, my name is Suchitra
+    - hey myself random name
+    - Hello! myself GG Mishra
+    - Hi I'm Rohit verma
+    - hey this is reaper
+    - hello there! my names something generic
+    - heylo wassup im the Gman.
+    - myself FancyName
+    - i am Gautam
+    - my name is Subramani
+    - im rishabh bandi
+    - log me in 
+    - login
+    - log in
+    - logged in
+    - please log me in
+    - can you log me in
+    - log in fisrt
+
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+    - log out
+    - log me out
+    - log out the base
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+    - ok the bye
+    - ok that's all bye
+    - bye have a nice day
+    - bye bro
+    - kiaros bye
+    - done
+    - that's all
+    - ok thats all bye
+    - thanks kairos
+    - thank's kairos
+    - thank you kairos
+    - bye thanks for the help
+    - very good kairos bye
+    - bye kairos thanks for the help
+    - logout
+    - logout
+    - log out
+    - log me out
+    - sign off
+    - signing off
+    - off sign
+    - log off
+    - logoff
+
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: change_status
+  examples: |
+    - change my status to [absent](change_status)
+    - i am on [leave today](change_status)
+    - change the status to [im in room 390](change_status)
+    - tell everybody that [im on leave for today](change_status)
+    - set my status to [busy](change_status)
+    - set status [in work](change_status)
+    - change the status to [dnd](change_status)
+    - [please don't disturb me](change_status)
+    - [i'm busy please don't](change_status)
+    - update my status to [available](change_status)
+
+- intent: current_status
+  examples: |
+    - what is my current sttaus
+    - show me my current status
+    - tell my cuurent status
+    - can you tell me my current status
+    - please tell me my current status
+    - current status please
+
+- intent: latest_events
+  examples: |
+    - what are the latest events in the college
+    - latest events
+    - what are the events in the college
+    - college events
+    - any upcoming events?
+    - any events which are upcoming?
+    - any hackathons?
+    - any competitions?
+    - are there are any competitions there
+    - any update by IDEC
+    - anything from IEDC
+    - IEDC news?
+    - any events from IEDC
+
+- intent: founder
+  examples: |
+    - who is the founder of the college
+    - founder of vit
+    - founder of vishnu Institiue of technology
+    - who the founder
+    - founder?
+    - tell who is the founder of your college
+    - may i know the who found this college
+    - can i get the details of who found the college
+    - tell me the details of founder of this college
+
+- intent: c_hod_currentdept
+  examples: |
+    - who is the HOD of [CSE](currentdept) department
+    - who is the HOD of [Computer](currentdept) Science Engineering department
+    - Hod of [CSE](currentdept)
+    - [CSE](currentdept) hod
+    - [cse](currentdept) Hod
+    - who is the hod of [ece](currentdept) dept
+    - dept of [ece](currentdept) hod
+    - who is the hod of [ece](currentdept)
+    - [ece](currentdept) hod
+    - [civil](currentdept) department hod details
+    - details of [civil](currentdept) department hod
+    - can get the name of hod of [it](currentdept) department
+    - who is the HOD of [IT](currentdept) dept.
+    - [Information](currentdept) Technology hod
+    - [mech](currentdept) hod
+    - [mechanical](currentdept) HOD
+    - HOD of [mechanical](currentdept) department
+    - department of [mechanical](currentdept) department
+    - [mech](currentdept) HOD 
+    - [EEE](currentdept) department Hod
+    - HOD of [eee](currentdept) department
+    - Hod list of [EEE](currentdept) department
