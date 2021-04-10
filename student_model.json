@@ -1,0 +1,43 @@
+{
+    "Photo" : "",
+    "ID" : "19PA1A0534",
+    "Name" : "Chialakala Bala Mahesh",
+    "Father Name" : "Chilakala Bala Mahesh",
+    "Department" : "CSE",
+    "Mobile" : "9515391831",
+    "Email" : "balamahesh.ch@vishnu.edu.in",
+    "Status" : "Available",
+    "Certificates" : {
+        "ML thopu" : {
+            "Date" : "27-Mar-2021"
+        },
+        "Data Science" : {
+            "Date" :"27-Mar-2021"
+        }
+    },
+    "Achievements" : {
+        "WiDS" : {
+            "Achieved" : "Semi-Finalists",
+            "Date" : "27-Mar-2021",
+            "Prize" : "$500 Cash prize"
+        },
+        "EY Hackathon" : {
+            "Achieved" : "Finalists",
+            "Date" : "27-Mar-2021",
+            "Prize" : "$5000000000 Cash prize"
+        }
+    },
+    "Address" : "Nsrpet, Guntur",
+    "Mentor" : "Mr. R Srinivas Raju",
+    "D/H" : "Hosteler",
+    "Password" : "19PA1A0534",
+    "Clubs" : ["NSS", "NCC", "IIT", "JEE", "AI", "MUSIC"],
+    "Permission Requests" : [
+        {
+            "Date" : "27-Mar-2021",
+            "Type" : "Outing",
+            "To" : "Mentor",
+            "Status" : "Approved"
+        }
+    ]
+}

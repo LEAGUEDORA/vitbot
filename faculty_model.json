@@ -1,0 +1,31 @@
+{
+    "Photo" : "",
+    "ID" : "CSE01",
+    "Name" : "Chialakala Bala Mahesh",
+    "Designation" : "Assoc. Prof",
+    "Department" : "CSE",
+    "Mobile" : "9515391831",
+    "Email" : "balamahesh.ch@vishnu.edu.in",
+    "Status" : "Available",
+    "Certificates" : {
+        "ML thopu" : {
+            "Date" : "27-Mar-2021"
+        },
+        "Data Science" : {
+            "Date" :"27-Mar-2021"
+        }
+    },
+    "Achievements" : {
+        "WiDS" : {
+            "Achieved" : "Semi-Finalists",
+            "Date" : "27-Mar-2021",
+            "Prize" : "$500 Cash prize"
+        },
+        "EY Hackathon" : {
+            "Achieved" : "Finalists",
+            "Date" : "27-Mar-2021",
+            "Prize" : "$5000000000 Cash prize"
+        }
+    },
+    "Address" : "Nsrpet, Guntur"
+}

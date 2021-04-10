@@ -1,0 +1,102 @@
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - data_faculty
+  - change_status
+  - current_status
+  - latest_events
+  - founder
+  - c_hod_currentdept
+entities:
+  - data_faculty
+  - change_status
+  - dummy
+  - currentdept
+responses:
+  utter_greet:
+  - text: "Hey! How are you?"
+  utter_ask_ID:
+  - text: Please Enter your Employee or Student ID
+  utter_ask_Password:
+  - text: Please type in your password
+  utter_goodbye:
+  - text: Ha sare bye!
+  utter_current_status:
+  - text: "Your current status is <br> <b>{Status}</b><br>Last changed on <b>{last_change}</b>"
+
+
+slots:
+  ID:
+    type: text
+    influence_conversation: false
+  Password:
+    type: text
+    influence_conversation: false
+  Type:  #The logged person is Student or Faculty
+    type: text
+    influence_conversation: false
+  Authenticate:
+    type: text
+    influence_conversation: false
+  Name:
+    type: text
+    influence_conversation: false
+  Year:
+    type: text
+    influence_conversation: false
+  Mobile:
+    type: text
+    influence_conversation: false
+  DH:
+    type: text
+    influence_conversation: false
+  Email:
+    type: text
+    influence_conversation: false
+  DOB:
+    type: text
+    influence_conversation: false
+  Status:
+    type: text
+    influence_conversation: false
+  change_status:
+    type: text
+    influence_conversation: false
+  last_change:
+    type: text
+    influence_conversation: false
+  dummy:
+    type: text
+    influence_conversation: false
+  currentdept:
+    type: text
+    influence_conversation: false
+
+actions:
+- action_login
+- validate_greet
+- action_change_status
+- action_current_status
+- action_goodbye
+- action_latest_events
+- action_quick_replies
+
+forms:
+  greet:
+    ID:
+    - type: from_text
+    Password:
+    - type: from_text
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
