@@ -35,7 +35,10 @@ class extras():
 
     @classmethod
     def get_slot_values(cls, formName: str) -> list:
-        """Returns all the slots that are present in the domain file under particular form"""
+        """
+        Returns all the slots that are present in the domain file under particular form
+        formName: name of the form that is in the domain.yml file
+        """
         list_of_values = []
         for i in domain:
             if i == "forms":
@@ -47,7 +50,12 @@ class extras():
     
     @classmethod
     def stringify(cls, dict_: dict, purpose: str, statement = "Here is a brief description of you") -> str:
-        """Returns a string with a proper format from Dictionary"""
+        """
+        Returns a string with a proper format from Dictionary(JSON)
+        dict_: The original dictionary/JSON that recieved from the database
+        purpose: The name of the purpose that is mapped in the database to fetch the access right
+        statement: The initial line in the string that is to be printed. "Default"
+        """
         reply = statement + "<br>"
         supported = getattr(dbconnector.load, "getAccess")({f"{purpose}" : {'$exists' : 1}})
         for i in dict_:
@@ -55,6 +63,7 @@ class extras():
                 if type(dict_[i]) == str and i != "_id":
                     reply = reply + "<b>" + i + "</b> : "+ dict_[i] + " " +"<br>"
                 elif type(dict_[i] == list) and i != "_id":
+                    reply = reply + f"<b> {i}: </b><br>"
                     if type(dict_[i]) != list:
                         for j in dict_[i]:
                             reply = reply + f"<b> {j} </b> <br>"
@@ -69,11 +78,17 @@ class extras():
                     reply = reply + f"<b> {i} </b> <br>"
                     for j in dict_[i]:
                         reply  = f"  {dict_[i][j]} <br>"
-
         return reply
     
     @classmethod
     def createDropdown(cls, intent: str, slot_name: str, values: list) -> list:
+        """ 
+        Creates a drop down menu from the recieved configuration
+        intent: The intent that must be printed on the final output
+        slot_name: name of the entity/slot name that needs to be on the output
+        values: list of values that needs to be delivered to the UI
+        final output: "/intent{'intent' : 'value(s)'}"
+        """
         lst = []
         for i in values:
             temp = {}
@@ -84,6 +99,13 @@ class extras():
 
     @classmethod
     def createbuttons(cls, intent: str, slot_name: str, values: list) -> list:
+        """ 
+        Creates buttos from the recieved configuration
+        intent: The intent that must be printed on the final output
+        slot_name: name of the entity/slot name that needs to be on the output
+        values: list of values that needs to be delivered to the UI
+        final output: "/intent{'intent' : 'value(s)'}"
+        """
         lst = []
         for i in values:
             temp = {}
@@ -93,9 +115,13 @@ class extras():
         return lst
 
     @classmethod
-    def createCardsCarousel(cls):
+    def createCardsCarousel(cls, functionName: str) -> list:
+        """ 
+        Creates Cards from the recieved configuration from the database for events
+        functionName: The name of the function in dbconnector.py
+        """
         lst = []
-        events_list = getattr(dbconnector.load, "getEvents")()
+        events_list = getattr(dbconnector.load, f"{functionName}")()
         for i in events_list:
             dict_ = {}
             for j in i:
@@ -107,7 +133,11 @@ class extras():
         return lst
 
     @classmethod
-    def changeName(cls, nameOfDepartment):
+    def changeName(cls, nameOfDepartment: str) -> str:
+        """
+        Helps to correct name of the department that is given by the user
+        nameOfDepartment: The name of the department that is given by the user
+        """
         nameOfDepartment = nameOfDepartment.split(" ")
         nameOfDepartment = nameOfDepartment[0]
         alisases = {
@@ -122,8 +152,6 @@ class extras():
             if nameOfDepartment in alisases[i]:
                 return i
         return None
-
-
 
 
 class ValidateFormGreet(FormValidationAction):
@@ -167,7 +195,7 @@ class ValidateFormGreet(FormValidationAction):
             stringed = extras.stringify(dict_ = result, purpose= purpose) # Making a string with user details
             dispatcher.utter_message(text = stringed, image = result['Photo']) # Sending the user with the made string and image
             dispatcher.utter_message(text = "Here are some of the <b>Latest Events</b> going in our College. Please do have a look at them..")
-            message = extras.createCardsCarousel() #Creating a cards carousel 
+            message = extras.createCardsCarousel(functionName = "getEvents") #Creating a cards carousel 
             data = {
                 "payload" : 'cardsCarousel',
                 "data"  :message
@@ -229,6 +257,7 @@ class ActionBye(Action):
         return "action_goodbye"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        """Dispatches good bye message and Clears all the slots indicating that the session is completed"""
         dispatcher.utter_message(response = "utter_goodbye")
         return [AllSlotsReset()]
 
@@ -239,8 +268,9 @@ class ActionlatestEvents(Action):
         return "action_latest_events"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        """Getting the list of events and seding it to the user in a Card Crousel Format"""
         dispatcher.utter_message(text = "Here are some of the <b>Latest Events</b> going in our College. Please do have a look at them..")
-        message = extras.createCardsCarousel()
+        message = extras.createCardsCarousel(functionName = "getEvents") # Creating cards carousel
         data = {
             "payload" : 'cardsCarousel',
             "data"  :message
@@ -254,20 +284,21 @@ class ActionQuickReplies(Action):
         return "action_quick_replies"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        intent = str(tracker.get_intent_of_latest_message(skip_fallback_intent = True)).lower()
-        if intent is not None and not intent.startswith("c_"):
+        """Quick replies are sent from here"""
+        intent = str(tracker.get_intent_of_latest_message(skip_fallback_intent = True)).lower() # Getting the intent
+        if intent is not None and not intent.startswith("c_"): #Cheks that the intent is Not none and doesnot starts with c_. "c_" indicates that the intent is in confused state
             result = getattr(dbconnector.load, "getQuickReplies")(intent = intent)
             dispatcher.utter_message(text = result[0], image = result[1])
         elif intent is not None and intent.startswith("c_"):
             only_intent = intent[2:intent.rfind("_")]
             slotname = intent[intent.rfind("_")+1:]
             slotname = tracker.get_slot(slotname)
-            print(only_intent, slotname)
             finalName = extras.changeName(nameOfDepartment = slotname)
             if finalName is not None:
                 result = getattr(dbconnector.load, "getQuickReplies")(only_intent+ "_" +finalName)
                 dispatcher.utter_message(text = result[0], image = result[1])
             else:
+                #If there is no proper department defined it asks for the department 
                 dispatcher.utter_message(text = "Please ask the same question again with proper Department Name")
         return []
 
@@ -278,26 +309,26 @@ class ActionMentoring(Action):
         return "action_mentorslist"
     
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        """Getting the mentor list from the database for both student and the faculty"""
         authenticate = tracker.get_slot("Authenticate")
-        if authenticate is not None: 
-            Type = tracker.get_slot("Type")
-            ID = tracker.get_slot("ID")
+        if authenticate is not None:  #Cheks the autherization
+            Type = tracker.get_slot("Type") #Gets whether the logged in person is Student or Faculty
+            ID = tracker.get_slot("ID") #Gets the ID of the user
             if Type == "Student":
-                getMentorID = getattr(dbconnector.load, "validate_Password")({"ID" : ID})[0]
-                print(getMentorID)
-                getMentorID = getMentorID['MentorId']
-                dispatcher.utter_message(text = "Here are your Mentor details")
-                getmentorDetails = getattr(dbconnector.load, "validate_Password")({"ID": getMentorID})[0]
-                accessname = "student_asking_mentor"
-                string = extras.stringify(dict_= getmentorDetails, purpose = accessname, statement = "Here are the details of your Mentor")
-                dispatcher.utter_message(text = string, image = getmentorDetails['Photo'] ) 
+                """If the user is a student then the bot replies his/her mentor details with proper access rights set by the College"""
+                getMentorID = getattr(dbconnector.load, "validate_Password")({"ID" : ID})[0]['MentorId'] #getting mentor ID that is mapped in the database
+                dispatcher.utter_message(text = "Here are your Mentor details") 
+                getmentorDetails = getattr(dbconnector.load, "validate_Password")({"ID": getMentorID})[0] #getting the details of the mentor
+                accessname = "student_asking_mentor" #Mapped in the database
+                string = extras.stringify(dict_= getmentorDetails, purpose = accessname, statement = "Here are the details of your Mentor") #Converting the dictionary to a string in a readable format
+                dispatcher.utter_message(text = string, image = getmentorDetails['Photo'] )  #Dispatching the message with Image and Formatted string
             else:
-                getmentoringStudents = getattr(dbconnector.load, "validate_Password")({"ID" : ID}) [0]["MentoringStudents"]
-                for i in getmentoringStudents:
-                    getStudentDetals = getattr(dbconnector.load, "validate_Password")({"ID" : i})[0]
-                    accessname = "faculty_asking_mentor"
-                    string = extras.stringify(dict_= getStudentDetals, purpose = accessname, statement = "Here are the students under you:")
-                    dispatcher.utter_message(text = string, image = getStudentDetals['Photo'])
-                
+                """If the user is a Faculty then the he/she can get all the details of thier mentoring students"""
+                getmentoringStudents = getattr(dbconnector.load, "validate_Password")({"ID" : ID}) [0]["MentoringStudents"] #Getting the student details from the database
+                for i in getmentoringStudents:  #Looping through every student details that are recieved from the database
+                    getStudentDetals = getattr(dbconnector.load, "validate_Password")({"ID" : i})[0] #Getting each student details from their ID
+                    accessname = "faculty_asking_mentor" #mapped in database for access rights
+                    string = extras.stringify(dict_= getStudentDetals, purpose = accessname, statement = "Here are the students under you:")  #Converting into beautiful string from the dictionary recieved from the database
+                    dispatcher.utter_message(text = string, image = getStudentDetals['Photo']) #Dispathcing with stringed text and image
         return []
 
