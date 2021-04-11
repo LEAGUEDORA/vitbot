@@ -118,7 +118,6 @@ nlu:
     - can you log me in
     - log in fisrt
 
-
 - intent: goodbye
   examples: |
     - good afternoon
@@ -169,7 +168,6 @@ nlu:
     - log off
     - logoff
 
-
 - intent: affirm
   examples: |
     - yes
@@ -178,6 +176,7 @@ nlu:
     - of course
     - that sounds good
     - correct
+
 
 - intent: deny
   examples: |
@@ -325,7 +324,6 @@ nlu:
     - college principal
     - college prince
     - our clg principal
-
 - intent: companies
   examples: |
     - placements companies
@@ -393,7 +391,18 @@ nlu:
     - pic of college
     - picture of College
 
-  
-
-
-
+- intent: mentorslist
+  examples: |
+    - who are my mentors
+    - my mentor list
+    - mentoring student list
+    - list of mentoring students
+    - who is my mentor
+    - mentor details
+    - i want to know about my mentor
+    - my mentor details
+    - details of my mentor
+    - my mentor
+    - students under my mentoring
+    - student details under me
+    - under me mentoring students

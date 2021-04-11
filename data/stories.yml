@@ -44,3 +44,9 @@ stories:
     - intent: holidays
     - intent: map
   - action: action_quick_replies
+
+
+- story: mentoring students
+  steps:
+  - intent: mentorslist
+  - action: action_mentorslist
