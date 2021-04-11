@@ -45,7 +45,7 @@ class StaggingDetails():
         return result, "Faculty"
     
     @classmethod
-    def stringify(cls, dict_: dict) -> list:
+    def getAccess(cls, dict_: dict) -> list:
         result = cls.accessRights.find_one(dict_)
         return result
     

@@ -25,11 +25,15 @@ intents:
   - fee
   - holidays
   - map
+  - mentorslist
+
 entities:
   - data_faculty
   - change_status
   - dummy
   - currentdept
+
+  
 responses:
   utter_greet:
   - text: "Hey! How are you?"
@@ -98,6 +102,7 @@ actions:
 - action_goodbye
 - action_latest_events
 - action_quick_replies
+- action_mentorslist
 
 forms:
   greet:
