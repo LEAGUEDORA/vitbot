@@ -46,13 +46,30 @@ class extras():
         return list_of_values
     
     @classmethod
-    def stringify(cls, dict_: dict, purpose: str) -> str:
+    def stringify(cls, dict_: dict, purpose: str, statement = "Here is a brief description of you") -> str:
         """Returns a string with a proper format from Dictionary"""
-        reply = "Here is a brief description of you  <br>"
-        supported = getattr(dbconnector.load, cls.stringify.__name__)({f"{purpose}" : {'$exists' : 1}})
+        reply = statement + "<br>"
+        supported = getattr(dbconnector.load, "getAccess")({f"{purpose}" : {'$exists' : 1}})
         for i in dict_:
             if i in supported[f'{purpose}']:
-                reply = reply + "<b>" + i + "</b> : "+ dict_[i] + " " +"<br>"
+                if type(dict_[i]) == str and i != "_id":
+                    reply = reply + "<b>" + i + "</b> : "+ dict_[i] + " " +"<br>"
+                elif type(dict_[i] == list) and i != "_id":
+                    if type(dict_[i]) != list:
+                        for j in dict_[i]:
+                            reply = reply + f"<b> {j} </b> <br>"
+                            for k in dict_[i][j]:
+                                reply = reply + f"   <b>{k}</b>: {dict_[i][j][k]} <br>"
+                    else:
+                        reply = reply + f"<b>{i}</b><br>"
+                        for j in dict_[i]:
+                            for k in j:
+                                reply = reply + f"{k}: {j[k]} <br>"
+                else:
+                    reply = reply + f"<b> {i} </b> <br>"
+                    for j in dict_[i]:
+                        reply  = f"  {dict_[i][j]} <br>"
+
         return reply
     
     @classmethod
@@ -144,27 +161,21 @@ class ValidateFormGreet(FormValidationAction):
                         print("Do Nothing")
                     else:
                         slot_values[slot] = result[slot]
-            dispatcher.utter_message(text = "Login Successful")
-            dispatcher.utter_message(response =  "greet")
+            dispatcher.utter_message(text = "Login Successful") # Telling the user that login is sucessfull
+            dispatcher.utter_message(response =  "greet") # Greeting the user with greet
             purpose = f"{Type}_login"
-            stringed = extras.stringify(dict_ = result, purpose= purpose)
-            dispatcher.utter_message(text = stringed, image = result['Photo'])
+            stringed = extras.stringify(dict_ = result, purpose= purpose) # Making a string with user details
+            dispatcher.utter_message(text = stringed, image = result['Photo']) # Sending the user with the made string and image
             dispatcher.utter_message(text = "Here are some of the <b>Latest Events</b> going in our College. Please do have a look at them..")
-            message = extras.createCardsCarousel()
+            message = extras.createCardsCarousel() #Creating a cards carousel 
             data = {
                 "payload" : 'cardsCarousel',
                 "data"  :message
             }
-            dispatcher.utter_message(json_message = data  )
+            dispatcher.utter_message(json_message = data  ) #sending the UI the cards carousel data
         else:
+            #If the user is already logged in and greets the bot again, the bot replies with the greet intent
             dispatcher.utter_message(response= "utter_greet")
-            dispatcher.utter_message(text = "Here are some of the <b>Latest Events</b> going in our College. Please do have a look at them..")
-            message = extras.createCardsCarousel()
-            data = {
-                "payload" : 'cardsCarousel',
-                "data"  :message
-            }
-            dispatcher.utter_message(json_message = data)
 
         return slot_values
 
@@ -175,11 +186,13 @@ class ActionChangeStatus(Action):
         return "action_change_status"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        intent = tracker.get_intent_of_latest_message(skip_fallback_intent = True)
-        change_status = tracker.get_slot("change_status")
-        authenticate = tracker.get_slot("Authenticate")
-        if authenticate is not None:
-            if change_status is not None:
+        """Status of the user will be changed from here"""
+        intent = tracker.get_intent_of_latest_message(skip_fallback_intent = True) #Get the latest intent
+        change_status = tracker.get_slot("change_status") # Value that the user wants to change
+        authenticate = tracker.get_slot("Authenticate") # Checking whether thr user is logged in or not
+        if authenticate is not None: # If logged in 
+            if change_status is not None:  # if user already said status to be changed
+                # Creating dictionary that needs to be changed
                 to_change = {
                     "$set" : {
                         "Status" : change_status,
@@ -189,15 +202,20 @@ class ActionChangeStatus(Action):
                 find = {
                     "ID" : tracker.get_slot("ID")
                 }
+                # Sending the data to the DataBase
                 initial, chenged_tp = getattr(dbconnector.load, "change_status")(change = to_change, Type = tracker.get_slot("Type"), find = find)
                 dispatcher.utter_message(text = f"Status has been changed to <b>{change_status}</b>")
+                #Setting the slots to required formats
                 return [SlotSet("Status", change_status), SlotSet("last_change", str(datetime.datetime.now())), SlotSet("change_status", None)]
             
             else:
+                #If the user didn't enter anything about the status then the bot pops up with some values from database
+                #Creating dropdown menu
                 data = extras.createDropdown(intent = intent, slot_name = "change_status", values = getattr(dbconnector.load, "get_extras")(intent = intent))
                 message = {"payload" : "dropDown", "data":data}
                 dispatcher.utter_message(text = "Please select the status that is to be changed from below list", json_message = message)
         else:
+            # If the user didn't login then it doesn't allow the user to login
             dispatcher.utter_message(text = "You have not logged in. Please log in and try again", buttons = extras.createbuttons(intent = "greet", slot_name = "dummy", values = ["Login"]))
         
         return []
@@ -252,3 +270,34 @@ class ActionQuickReplies(Action):
             else:
                 dispatcher.utter_message(text = "Please ask the same question again with proper Department Name")
         return []
+
+
+class ActionMentoring(Action):
+
+    def name(self) -> Text:
+        return "action_mentorslist"
+    
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        authenticate = tracker.get_slot("Authenticate")
+        if authenticate is not None: 
+            Type = tracker.get_slot("Type")
+            ID = tracker.get_slot("ID")
+            if Type == "Student":
+                getMentorID = getattr(dbconnector.load, "validate_Password")({"ID" : ID})[0]
+                print(getMentorID)
+                getMentorID = getMentorID['MentorId']
+                dispatcher.utter_message(text = "Here are your Mentor details")
+                getmentorDetails = getattr(dbconnector.load, "validate_Password")({"ID": getMentorID})[0]
+                accessname = "student_asking_mentor"
+                string = extras.stringify(dict_= getmentorDetails, purpose = accessname, statement = "Here are the details of your Mentor")
+                dispatcher.utter_message(text = string, image = getmentorDetails['Photo'] ) 
+            else:
+                getmentoringStudents = getattr(dbconnector.load, "validate_Password")({"ID" : ID}) [0]["MentoringStudents"]
+                for i in getmentoringStudents:
+                    getStudentDetals = getattr(dbconnector.load, "validate_Password")({"ID" : i})[0]
+                    accessname = "faculty_asking_mentor"
+                    string = extras.stringify(dict_= getStudentDetals, purpose = accessname, statement = "Here are the students under you:")
+                    dispatcher.utter_message(text = string, image = getStudentDetals['Photo'])
+                
+        return []
+
